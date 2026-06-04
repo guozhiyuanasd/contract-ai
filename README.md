@@ -83,7 +83,7 @@ npm run dev
 
 ## 项目结构
 
-`
+```
 contract-ai/
 ├── src/
 │   ├── app/
@@ -106,7 +106,7 @@ contract-ai/
 ├── public/                       # 静态资源
 ├── supabase-schema.sql           # 数据库Schema
 └── package.json
-`
+```
 
 ## 成本估算
 
