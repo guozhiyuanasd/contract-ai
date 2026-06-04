@@ -1,7 +1,4 @@
-﻿import fs from 'fs'
-import path from 'path'
-
-export interface RiskItem {
+﻿export interface RiskItem {
   level: 'high' | 'medium' | 'low'
   title: string
   clause: string
@@ -58,36 +55,12 @@ const SYSTEM_PROMPT = `你是一个专业的合同审查律师，擅长发现合
 4. 只返回JSON格式，不要有其他内容
 `
 
-// 从 .env.local 文件直接读取 API Key，避免系统环境变量覆盖
-function getEnvLocalValue(key: string): string | undefined {
-  try {
-    const envPath = path.join(process.cwd(), '.env.local')
-    const content = fs.readFileSync(envPath, 'utf-8')
-    const lines = content.split('\n')
-    for (const line of lines) {
-      const trimmed = line.trim()
-      if (trimmed.startsWith('#') || !trimmed.includes('=')) continue
-      const [envKey, ...valueParts] = trimmed.split('=')
-      if (envKey.trim() === key) {
-        return valueParts.join('=').trim()
-      }
-    }
-  } catch {
-    // 文件读取失败时回退到 process.env
-  }
-  return undefined
-}
-
 export async function analyzeContract(text: string): Promise<AnalysisResult> {
-  // 优先从 .env.local 读取，如果没有则用系统环境变量
-  const apiKey = getEnvLocalValue('DEEPSEEK_API_KEY') || process.env.DEEPSEEK_API_KEY
+  const apiKey = process.env.DEEPSEEK_API_KEY
 
   if (!apiKey) {
     throw new Error('DEEPSEEK_API_KEY not configured')
   }
-
-  // 调试：打印密钥后4位，用于确认加载的是哪个密钥（不暴露完整密钥）
-  console.log('[Debug] Using DEEPSEEK_API_KEY ending with:', apiKey.slice(-4))
 
   const response = await fetch('https://api.deepseek.com/chat/completions', {
     method: 'POST',
@@ -109,7 +82,6 @@ export async function analyzeContract(text: string): Promise<AnalysisResult> {
   if (!response.ok) {
     const errorText = await response.text()
     console.error('DeepSeek API error:', errorText)
-    // 将具体错误信息传递出去，方便前端显示
     let errorMsg = 'AI API error: ' + response.status
     try {
       const errJson = JSON.parse(errorText)
