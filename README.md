@@ -22,29 +22,29 @@
 
 ### 1. 克隆项目
 
-`ash
+```bash
 git clone <your-repo-url>
 cd contract-ai
-`
+```
 
 ### 2. 安装依赖
 
-`ash
+```bash
 npm install
-`
+```
 
 ### 3. 配置环境变量
 
 复制 .env.example 为 .env.local，填入以下配置：
 
-`env
+```env
 # Supabase配置
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # 通义千问API
 DASHSCOPE_API_KEY=your_dashscope_api_key
-`
+```
 
 ### 4. 配置Supabase
 
@@ -60,9 +60,9 @@ DASHSCOPE_API_KEY=your_dashscope_api_key
 
 ### 6. 运行项目
 
-`ash
+```bash
 npm run dev
-`
+```
 
 访问 http://localhost:3000
 
